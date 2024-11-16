@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarize Text</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-full bg-[url('https://images7.alphacoders.com/934/934269.jpg')] bg-cover">
+    <div class="h-[100vh] flex justify-center items-center flex-col ">
+        <div class="text-8xl font-bold h-[8vh] w-full justify-center items-center flex p-4 mt-7">
+            <h1 class=" font-bold py-2 px-4 rounded font-sans tracking-tight text-yellow-300 
+            italic">Summarize Text</h1>
+        </div>
+        <div class="h-[92vh] w-full justify-center items-center flex gap-6 gap">
+        <textarea rows="20" placeholder="Add your article" id="input_text" class="h-[70vh] w-[70vh] border-2 border-black p-2 rounded-md bg-yellow-400 text-white shadow-inner bg-opacity-10"></textarea>
+        <button class="py-10 px-5 text-2xl font-bold rounded-full animate-bounce bg-yellow-500 text-black-500 cursor-alias" onclick="getData()">Get<br>Summary</button>
+        <textarea rows="20" placeholder="Wait for the result" id="output_text" class="h-[70vh] w-[70vh] border-2 border-black p-2 rounded-md bg-yellow-400 text-white shadow-inner bg-opacity-10"></textarea>
+        </div>
+    </div>
+    <script>
+        function getData(){
+            var text= document.getElementById("input_text").value
+            query({"inputs":[text] }).then((response) => {
+            document.getElementById("output_text").value= JSON.stringify(response);
+        });
+        }
+        async function query(data) {
+            const response = await fetch(
+                "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
+                {
+                    headers: {
+                        Authorization: "Bearer xx"
+                    },
+                    method: "POST",
+                    body: JSON.stringify(data),
+                }
+            );
+            const result = await response.json();
+            return result;
+        }
+
+    </script>
+
+</body>
+</html>
